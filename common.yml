@@ -16,24 +16,6 @@
   - name: install bash-it
     command: ~/.bash_it/install.sh --silent
 
-  - name: enable bash-it plugins
-    shell: source ~/.bash_profile && bash-it enable plugin {{item}}
-    args:
-      executable: /bin/bash
-    with_items:
-    - base
-    - fzf
-    - git
-
-  - name: enable bash-it completions
-    shell: source ~/.bash_profile && bash-it enable completion {{item}}
-    args:
-      executable: /bin/bash
-    with_items:
-    - bash-it
-    - git
-    - system
-
   - name: get TPM
     git:
       repo: https://github.com/tmux-plugins/tpm

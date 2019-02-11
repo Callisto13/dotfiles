@@ -15,9 +15,14 @@
 1. Speed up key repeat: Open System Preferences > Keyboard and set Key Repeat and Delay Until Repeat to max.
 1. Make iTerm append Esc to Alt key. Open iTerm -> Preferences -> Profiles -> Keys and change the Left and Right Alt key settings from Normal to Esc+. This restores alt+f, alt+backspace etc.
 1. `vim-update`. Not all plugins install unless the shell is interactive, for some reason.
-1. `bash-it enable completion git` and anything else you want. This should be automated but must be run in a shell that probably has bash-it loaded. You'll have to jump through a small hoop to make ansible do this, but it's totally possible. We're just lazy for now.
 1. Reload tmux and shell.
 1. Install TPM plugins (in `tmux` press `ctrl+space` then `shift+i`).
+1. Enable `bash-it` plugins and completions. This used to be automated, but they have since merged a change which means [bash-it cannot be run interactively](https://github.com/Bash-it/bash-it/pull/1325/commits/83c44fac646ef92e70694f1528d63a6f66b99cfd). Until we find another way around this, run:
+```sh
+   source ~/.bash_profile
+   bash-it enable plugin base chruby-auto chruby fzf git
+   bash-it enable completion bash-it git system
+```
 
 ## Linux post-install steps
 
