@@ -20,7 +20,7 @@
 1. Enable `bash-it` plugins and completions. This used to be automated, but they have since merged a change which means [bash-it cannot be run interactively](https://github.com/Bash-it/bash-it/pull/1325/commits/83c44fac646ef92e70694f1528d63a6f66b99cfd). Until we find another way around this, run:
 ```sh
    source ~/.bash_profile
-   bash-it enable plugin base chruby-auto chruby fzf git
+   bash-it enable plugin base fzf git
    bash-it enable completion bash-it git system
 ```
 
