@@ -2,38 +2,6 @@
 
 set -euo pipefail
 
-unix() {
-  flavour="$(uname)"
-  if [ "$flavour" == "Linux" ]; then
-    "$1"__Linux
-  elif [ "$flavour" == "Darwin" ]; then
-    "$1"__Darwin
-  else
-    echo "$flavour doesn't sound like a Unix"
-  fi
-}
-
-install_ansible__Linux() {
-  sudo apt-get update
-  sudo apt-get install -y python-pip libssl-dev
-  pip install --upgrade --user pip
-  pip install --user ansible
-}
-
-install_ansible__Darwin() {
-  log "installing/upgrading Homebrew"
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  brew install ansible
-}
-
-playbook_tags__Linux() {
-  echo "linux"
-}
-
-playbook_tags__Darwin() {
-  echo "macos"
-}
-
 log() {
   echo
   echo "----------------------------------------------------------------------"
@@ -42,20 +10,48 @@ log() {
   echo
 }
 
-log "Pimping your ride...."
+install_brew() {
+  if [ "$1" != "" ]; then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+}
 
-if ! which ansible-playbook > /dev/null 2>&1 ; then
-  echo "ansible-playbook not found on \$PATH, installing"
-  unix install_ansible
-fi
+install_ansible() {
+  if ! command -v ansible-playbook > /dev/null 2>&1 ; then
+    log "ansible-playbook not found on \$PATH, installing"
+    install_brew "$1"
+    brew install ansible
+  fi
+}
 
-(
-cd "$(dirname "$0")"
-cmd="ansible-playbook -i localhost, --tags $(unix playbook_tags) --con local playbook.yml"
-if [ "$(uname)" == "Linux" ]; then
-  cmd="$cmd --ask-become-pass"
-fi
-$cmd
-)
+run_it() {
+  log "Configuring machine for $tag"
+  (
+    cd "$(dirname "$0")"
+    cmd="ansible-playbook -i localhost, --tags $tag --con local playbook.yml"
+    $cmd
+  )
 
-log "Don't forget to read the post install steps for your OS in README.md."
+  source "$HOME/.bash_profile"
+
+  log "Don't forget to read the post install steps for your section in README.md."
+}
+
+user="$*"
+case $user in
+  m)
+    tag="m-rcd"
+    install_ansible
+    ;;
+  c)
+    tag="callisto"
+    install_ansible "$tag"
+    ;;
+  *)
+    log "Usage: ./run.sh <m|c>"
+    exit 0
+    ;;
+esac
+
+run_it
+

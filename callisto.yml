@@ -1,0 +1,53 @@
+---
+- hosts: all
+  tags: [callisto]
+  tasks:
+  - name: install more Homebrew packages
+    homebrew:
+      name:
+      - docker
+      - docker-machine
+      - go
+      - kubectl
+      - ruby-install
+      - tmux
+      state: latest
+
+  - name: install more Homebrew casks
+    homebrew_cask: name={{item}} install_options=appdir=/Applications
+    with_items:
+    - docker
+    - flycut
+    - google-cloud-sdk
+    - iterm2
+    - shiftit
+    - vagrant
+    - virtualbox
+    - ngrok
+
+  - name: install counterfeiter
+    command: go get -u github.com/maxbrunsfeld/counterfeiter
+
+  - name: get TPM
+    git:
+      repo: https://github.com/tmux-plugins/tpm
+      dest: ~/.tmux/plugins/tpm
+
+  - file: path=~/bin state=directory mode=0755
+
+  - name: set up personal symlinks
+    file:
+      path: "{{item.target}}"
+      src: "{{item.src}}"
+      state: link
+      force: yes
+    with_items:
+    - {target: ~/.bash_it/custom/k8s_completion.bash, src: "{{ansible_env.PWD}}/config/bash/k8s_completion.bash"}
+    - {target: ~/.git-authors, src: "{{ansible_env.PWD}}/config/.git-authors-c"}
+    - {target: ~/.bash_it/custom/ngrok.bash, src: "{{ansible_env.PWD}}/config/bash/ngrok.bash"}
+    - {target: ~/.bash_it/custom/custom.bash, src: "{{ansible_env.PWD}}/config/bash/custom_c.bash"}
+    - {target: ~/.ruby-version, src: "{{ansible_env.PWD}}/config/.ruby-version"}
+    - {target: ~/.tmux.conf, src: "{{ansible_env.PWD}}/config/tmux.conf"}
+    - {target: ~/bin/load-key, src: "{{ansible_env.PWD}}/executables/load-key"}
+    - {target: ~/bin/gotta-push-em-all, src: "{{ansible_env.PWD}}/executables/gotta-push-em-all.sh"}
+    - {target: ~/.local/share/nvim/go/bin/go, src: "{{ansible_env.PWD}}/executables/mac-go.sh"}

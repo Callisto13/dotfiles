@@ -12,10 +12,10 @@ alias gap="git add -p"
 alias gp="git push"
 alias gst='git status'
 alias gsu="git submodule update --init --recursive"
-alias gup="git pull --rebase"
 alias gpr="git pull --rebase"
 alias solo='git solo --global'
 alias gti='git'
+alias ga='git add .'
 
 ## Custom Functions
 

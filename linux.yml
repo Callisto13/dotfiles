@@ -4,6 +4,8 @@
   vars:
     downloads_dir: /tmp/downloads
     git_apps:
+      chruby: https://github.com/postmodern/chruby.git
+      ruby-install:  https://github.com/postmodern/ruby-install.git
       fasd: https://github.com/clvv/fasd.git
   tasks:
   - name: add apt repositories
@@ -23,6 +25,16 @@
     become: yes
     become_method: sudo
     apt_key: url=https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+  - name: add Cloud Foundry Foundation repository
+    become: yes
+    become_method: sudo
+    lineinfile: dest=/etc/apt/sources.list.d/cloud-foundry-foundation.list line='deb http://packages.cloudfoundry.org/debian stable main' create=yes
+
+  - name: add Cloud Foundry Foundation repository key
+    become: yes
+    become_method: sudo
+    apt_key: url=https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
 
   - name: add VirtualBox repository
     become: yes
@@ -115,7 +127,7 @@
     when: tmux_version.stdout != "tmux 2.4"
 
   - name: download go
-    get_url: url=https://storage.googleapis.com/golang/go1.11.5.linux-amd64.tar.gz dest={{downloads_dir}}/go.tar.gz
+    get_url: url=https://storage.googleapis.com/golang/go1.9.2.linux-amd64.tar.gz dest={{downloads_dir}}/go.tar.gz
 
   - name: extract go
     become: yes
@@ -140,3 +152,6 @@
 
   - name: install git duet
     unarchive: copy=no src={{downloads_dir}}/git-duet.tar.gz dest={{ ansible_env.HOME }}/.local/bin creates={{ ansible_env.HOME }}/.local/bin/git-duet
+
+  - name: install bosh cli
+    get_url: url=https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.28-linux-amd64 dest={{ansible_env.HOME}}/.local/bin/bosh checksum=sha1:7b7629fcdf8839cf29bf25d97e8ea6beb3b9a7b2 mode=a+x

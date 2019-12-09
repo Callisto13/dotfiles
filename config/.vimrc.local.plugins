@@ -1,4 +1,5 @@
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'ruanyl/vim-gh-line'
-Plug 'robertmeta/nofrils'
-Plug 'avakhov/vim-yaml'
+
+Plug 'arzg/vim-corvine'
+Plug 'scwood/vim-hybrid'
+"Plug 'tomtom/tcomment_vim'
+

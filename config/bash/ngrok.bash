@@ -1,7 +1,7 @@
 #!/bin/bash
 
-alias tattach='tmux attach -t m-rcd'
-alias nmux='tmux new-session -s m-rcd'
+alias gattach='tmux attach -t garden'
+alias gmux='tmux new-session -s garden'
 
 function lsgrok {
 url=$(curl http://localhost:4040/api/tunnels 2>/dev/null | jq -r .tunnels[0].public_url)
