@@ -48,9 +48,6 @@
     default = simple
 [url "git@github.com:"]
     pushInsteadOf = https://github.com/
-[user]
-    email = garden@pivotal.io
-    name = CF Garden
 [difftool "sourcetree"]
     cmd = opendiff \"$LOCAL\" \"$REMOTE\"
     path =
