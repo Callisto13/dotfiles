@@ -24,6 +24,15 @@ install_ansible() {
   fi
 }
 
+install_ansible_linux() {
+	sudo apt-get update
+	sudo apt-get install -y python python3.6 libssl-dev
+	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+	python get-pip.py --user
+	pip install --user ansible
+	rm get-pip.py
+}
+
 run_it() {
   log "Configuring machine for $tag"
   (
@@ -47,8 +56,12 @@ case $user in
     tag="callisto"
     install_ansible "$tag"
     ;;
+  l)
+    tag="linux"
+    install_ansible_linux
+    ;;
   *)
-    log "Usage: ./run.sh <m|c>"
+    log "Usage: ./run.sh <m|c|l>"
     exit 0
     ;;
 esac

@@ -1,7 +1,7 @@
 [core]
     pager = less -FXRS -x2
     editor = nvim
-    excludesfile = /Users/pivotal/.gitignore_global
+    excludesfile = $HOME/.gitignore_global
 [alias]
     st = status
     di = diff
