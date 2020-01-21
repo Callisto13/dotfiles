@@ -2,3 +2,4 @@
 - import_playbook: common.yml
 - import_playbook: callisto.yml
 - import_playbook: m-rcd.yml
+- import_playbook: linux.yml

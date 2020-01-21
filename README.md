@@ -1,12 +1,15 @@
 ## First-time usage
 
+### All
 1. Clone this repo.
-1. Uninstall Shiftit, iTerm, any other cask apps listed in the casks of `common.yml` and `callisto.yml` OR `m-rcd.yml`.
-1. Sign into app store and update xcode. Then, open xcode and accept the license. Then run `xcode-select --install`. You'll need to do this for some inexplicable reason to use the C compiler. Remind me again why macOS is so developer-friendly?
 1. Ensure your SSH key is loaded via `ssh-add -l`
 
+### Mac
+1. Uninstall Shiftit, iTerm, any other cask apps listed in the casks of `common.yml` and `callisto.yml` OR `m-rcd.yml`.
+1. Sign into app store and update xcode. Then, open xcode and accept the license. Then run `xcode-select --install`. You'll need to do this for some inexplicable reason to use the C compiler. Remind me again why macOS is so developer-friendly?
+
 ## Usage
-1. `./run.sh <m|c>`
+1. `./run.sh <m|c|l>`
 
 ## Currently-required manual steps
 
@@ -25,23 +28,26 @@
 1. Enable `bash-it` plugins and completions. This used to be automated, but they have since merged a change which means [bash-it cannot be run interactively](https://github.com/Bash-it/bash-it/pull/1325/commits/83c44fac646ef92e70694f1528d63a6f66b99cfd). Until we find another way around this, run:
    ```sh
    source ~/.bash_profile
-   bash-it enable plugin base chruby-auto chruby fzf git
-   bash-it enable completion bash-it git system
+   bash-it enable plugin base chruby-auto chruby fzf git kubectl
+   bash-it enable completion bash-it git system kubectl
+   bash-it enable alias kubectl
    ```
-1. Do the things in common post-install below.
+1. Do the things in common mac post-install below.
 
 ## m-rcd post-install
 
 1. Download Flycut and Shiftit from a non-Mac store. Expand the zip, and drag the app into Applications.
 1. Open Flycut and Shiftit. Ensure they start on startup.
-1. Do the things in common post-install below.
+1. Do the things in common mac post-install below.
 
-## Common post-install
+## Common mac post-install
 
 1. Speed up key repeat. (System Preferences > Keyboard > set "Delay Until Repeat" to Short)
 1. Turn on Tap to click. (System Preferences > Trackpad > Point & Click > set "Tap to click")
 1. Make sure you set a Nerd Font as your non-ascii font in iTerm -> Preferences -> Profiles -> Text -> Non-ASCII Font (Inconsolata Mono Nerd Font comes with dotfiles)
-1. `vim-update`. Not all plugins install unless the shell is interactive, for some reason.
+1. Open vim and run `:PlugInstall`. Not all plugins install unless the shell is interactive, for some reason.
+
+## Linux post-install
 
 ## Adding configuration
 
