@@ -63,7 +63,7 @@
   - name: add Google Cloud repository
     become: yes
     become_method: sudo
-    lineinfile: dest=/etc/apt/sources.list.d/google-cloud-sdk.list line='deb https://packages.cloud.google.com/apt cloud-sdk-{{ansible_distribution_release}} main' create=yes
+    lineinfile: dest=/etc/apt/sources.list.d/google-cloud-sdk.list line='deb https://packages.cloud.google.com/apt cloud-sdk main' create=yes
 
   - name: add Google Cloud repository key
     become: yes
@@ -84,7 +84,7 @@
     become: yes
     become_method: sudo
     apt:
-      deb: https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_x86_64.deb
+      deb: https://releases.hashicorp.com/vagrant/2.2.13/vagrant_2.2.13_x86_64.deb
 
   - name: install apt packages
     become: yes
@@ -94,6 +94,9 @@
       update_cache: yes
       name:
       - ack-grep
+      - apt-transport-https
+      - ca-certificates
+      - gnupg
       - build-essential
       - cmake
       - curl

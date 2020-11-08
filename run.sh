@@ -26,7 +26,7 @@ install_ansible() {
 
 install_ansible_linux() {
 	sudo apt-get update
-	sudo apt-get install -y python python3.6 libssl-dev
+	sudo apt-get install -y python python3.7 libssl-dev
 	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 	python get-pip.py --user
 	pip install --user ansible
