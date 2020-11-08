@@ -131,6 +131,16 @@
   - name: extract ngrok
     unarchive: copy=no src={{downloads_dir}}/ngrok.zip dest={{downloads_dir}} creates={{downloads_dir}}/ngrok
 
+  - name: download kind
+    become: yes
+    become_method: sudo
+    get_url: url=https://github.com/kubernetes-sigs/kind/releases/download/v0.7.0/kind-linux-amd64 dest=/usr/local/bin
+
+  - name: chmod kind
+    become: yes
+    become_method: sudo
+    command: chmod +x /usr/local/bin/kind
+
   - name: clone vim config
     git:
       repo: https://github.com/masters-of-cats/a-new-hope
@@ -171,7 +181,7 @@
     pip: name=neovim state=latest extra_args=--user #executable=/usr/bin/pip
 
   - name: download go
-    get_url: url=https://dl.google.com/go/go1.13.5.linux-amd64.tar.gz dest={{downloads_dir}}/go.tar.gz
+    get_url: url=https://golang.org/dl/go1.15.4.linux-amd64.tar.gz dest={{downloads_dir}}/go.tar.gz
 
   - name: extract go
     become: yes

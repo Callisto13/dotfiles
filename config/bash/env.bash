@@ -9,6 +9,12 @@ export PATH=$GOPATH/bin:$PATH
 
 export PATH=$HOME/bin:$PATH
 
+export PATH=$PATH:/usr/local/go/bin
+
+# export GITHUB_TOKEN=$(lpass show 73408709150794196 --notes | tr -d '\n')
+
+export LPASS_DISABLE_PINENTRY=1
+
 export LPASS_AGENT_TIMEOUT=14400
 
 # Get rid of useless bash_it clock emoji

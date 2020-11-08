@@ -21,7 +21,7 @@ function fix-ssh {
 }
 
 
-function ginit {
+function cinit {
   tmux new-session -s ngrok -d
   tmux send -t ngrok "ngrok tcp --region=eu 22" ENTER
 }
