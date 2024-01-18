@@ -1,3 +1,11 @@
+[init]
+    templatedir = /home/claudia/.git-template
+    defaultBranch = main
+[commit]
+    gpgSign = true
+    template = /home/claudia/.git-commit
+[url "git@github.com:"]
+    insteadOf = https://github.com/
 [core]
     pager = less -FXRS -x2
     editor = nvim
@@ -19,9 +27,9 @@
     squash = commit --squash
     unstage = reset HEAD
     rum = rebase master@{u}
-    ci = commit --verbose
+    ci = commit -S --verbose
     dci = duet-commit --verbose
-    ca = commit --amend --reset-author --verbose
+    ca = commit -S --amend --reset-author --verbose
     dca = duet-commit --amend --reset-author --verbose
     drv = duet-revert
     dmg = duet-merge
@@ -46,8 +54,6 @@
     required = true
 [push]
     default = simple
-[url "git@github.com:"]
-    pushInsteadOf = https://github.com/
 [difftool "sourcetree"]
     cmd = opendiff \"$LOCAL\" \"$REMOTE\"
     path =

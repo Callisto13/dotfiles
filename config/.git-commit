@@ -1,0 +1,51 @@
+
+# Title above here
+# Use 50 characters maximum.
+# Do not use a sentence-ending period.
+#
+# Prefixes:
+#
+#   bump            = bump version
+#   chore(subtype)  = chore
+#   docs            = documentation
+#   feat            = new feature
+#   fix             = fixing something
+#   patch           = fixing something that's technically not broken... yet
+#   ref             = refactoring code
+#   sec             = security related
+#
+#   beautify, style = code style changes
+#   tag             = release tag commits (rare, but happens)
+#
+# Chore subtypes:
+#
+#   chore(deps)   = update dependency
+#   chore(fmt)    = similar to beautify/style, but in a more compact way
+#   chore(gen)    = update generated code/documentation
+#   chore(lang)   = typo fix, refrasing sentences, fix any language related issues
+
+
+# Description
+#
+# Use 72 characters maximum per line for typical word wrap text.
+#
+# Keywords:
+#
+#   Add       = create a capability e.g. feature, test, dependency.
+#   Drop      = delete a capability e.g. feature, test, dependency.
+#   Fix       = fix an issue e.g. bug, typo, accident, misstatement.
+#   Bump      = increase the version of something e.g. a dependency.
+#   Make      = change the build process, or tools, or infrastructure.
+#   Start     = begin doing something; e.g. enable a toggle, feature flag, etc.
+#   Stop      = end doing something; e.g. disable a toggle, feature flag, etc.
+#   Optimize  = a change that MUST be just about performance, e.g. speed up code.
+#   Document  = a change that MUST be only in the documentation, e.g. help files.
+#   Refactor  = a change that MUST be just refactoring.
+#   Reformat  = a change that MUST be just format, e.g. indent line, trim space, etc.
+#   Rephrase  = a change that MUST be just textual, e.g. edit a comment, doc, etc.
+
+
+# References
+#
+# Simple list of references like External URLs, file or histroy references,
+# Ticket ID/URL, link to a discussion.

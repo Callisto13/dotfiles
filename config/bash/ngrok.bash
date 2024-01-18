@@ -12,7 +12,7 @@ function lsgrok {
     host=$(echo "$url" | cut -d / -f 3 | cut -d : -f 1)
     port=$(echo "$url" | cut -d / -f 3 | cut -d : -f 2)
 
-    echo ssh -p "$port" $(whoami)@"$host"
+    echo ssh -p "$port" "$(whoami)@$host"
   fi
 }
 

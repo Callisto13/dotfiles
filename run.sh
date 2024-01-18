@@ -10,27 +10,22 @@ log() {
   echo
 }
 
-install_brew() {
-  if [ "$1" != "" ]; then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  fi
-}
-
-install_ansible() {
+install_ansible_mac() {
   if ! command -v ansible-playbook > /dev/null 2>&1 ; then
     log "ansible-playbook not found on \$PATH, installing"
-    install_brew "$1"
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     brew install ansible
   fi
 }
 
 install_ansible_linux() {
 	sudo apt-get update
-	sudo apt-get install -y python python3.7 libssl-dev
-	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-	python get-pip.py --user
-	pip install --user ansible
-	rm get-pip.py
+	sudo apt install ansible -y
+	# sudo apt-get install -y python python3.8 libssl-dev
+	# curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+	# python get-pip.py --user
+	# pip install --user ansible
+	# rm get-pip.py
 }
 
 run_it() {
@@ -41,7 +36,8 @@ run_it() {
     $cmd
   )
 
-  source "$HOME/.bash_profile"
+  #shellcheck disable=SC1091
+  source "$HOME/.bashrc"
 
   log "Don't forget to read the post install steps for your section in README.md."
 }
@@ -49,19 +45,15 @@ run_it() {
 user="$*"
 case $user in
   m)
-    tag="m-rcd"
-    install_ansible
-    ;;
-  c)
-    tag="callisto"
-    install_ansible "$tag"
+    tag="mac"
+    install_ansible_mac
     ;;
   l)
     tag="linux"
     install_ansible_linux
     ;;
   *)
-    log "Usage: ./run.sh <m|c|l>"
+    log "Usage: ./run.sh <m|l>"
     exit 0
     ;;
 esac

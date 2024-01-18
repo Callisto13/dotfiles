@@ -1,0 +1,82 @@
+---
+- hosts: all
+  tags: [mac]
+  tasks:
+  - name: update brew
+    homebrew: update_homebrew=yes
+
+  - name: add Homebrew taps
+    homebrew_tap: name={{item}}
+    with_items:
+    - homebrew/cask-fonts
+    - git-duet/tap
+    - neovim/neovim
+
+  - name: install Homebrew packages
+    homebrew:
+      name:
+      - ack
+      - ag
+      - awscli
+      - bash
+      - bash-completion@2
+      - coreutils
+      - ctags
+      - curl
+      - direnv
+      - fasd
+      - fzf
+      - git
+      - git-duet
+      - htop
+      - jq
+      - jsonpp
+      - libgit2
+      - neovim
+      - npm
+      - pstree
+      - python3
+      - python@2
+      - reattach-to-user-namespace
+      - ripgrep
+      - shellcheck
+      - ssh-copy-id
+      - terraform
+      - tig
+      - tree
+      - vim
+      - watch
+      - wget
+      - docker
+      - docker-machine
+      - go
+      - kubectl
+      - tmux
+      - derailed/k9s/k9s
+      state: latest
+
+  - name: install Homebrew casks
+    homebrew_cask: name={{item}} install_options=appdir=/Applications
+    with_items:
+    - font-inconsolata
+    - font-inconsolata-nerd-font
+    - google-cloud-sdk
+    - docker
+    - flycut
+    - google-cloud-sdk
+    - iterm2
+    - rectangle
+    - vagrant
+    - virtualbox
+    - ngrok
+
+  - name: set up symlinks
+    file:
+      path: "{{item.target}}"
+      src: "{{item.src}}"
+      state: link
+      force: yes
+    with_items:
+    - {target: ~/.bash_it/custom/brew.bash, src: "{{ansible_env.PWD}}/config/bash/brew.bash"}
+    - {target: ~/.local/share/nvim/go/bin/go, src: "{{ansible_env.PWD}}/executables/mac-go.sh"}
+

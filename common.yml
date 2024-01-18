@@ -1,95 +1,19 @@
 ---
 - hosts: all
-  tags: [callisto, m-rcd]
+  tags: [mac, linux]
   tasks:
-  - name: update brew
-    homebrew: update_homebrew=yes
-
-  - name: add Homebrew taps
-    homebrew_tap: name={{item}}
-    with_items:
-    - homebrew/cask-fonts
-    - git-duet/tap
-    - neovim/neovim
-
-  - name: install Homebrew packages
-    homebrew:
-      name:
-      - ack
-      - ag
-      - awscli
-      - bash
-      - bash-completion@2
-      - chruby
-      - coreutils
-      - ctags
-      - curl
-      - direnv
-      - fortune
-      - fasd
-      - fzf
-      - git
-      - git-duet
-      - htop
-      - jq
-      - jsonpp
-      - lastpass-cli
-      - libgit2
-      - neovim
-      - npm
-      - pstree
-      - python3
-      - python@2
-      - reattach-to-user-namespace
-      - ripgrep
-      - shellcheck
-      - ssh-copy-id
-      - sshuttle
-      - terraform
-      - tig
-      - tree
-      - vim
-      - watch
-      - wget
-      - yarn
-      state: latest
-
-  - name: install Homebrew casks
-    homebrew_cask: name={{item}} install_options=appdir=/Applications
-    with_items:
-    - font-inconsolata
-    - font-inconsolata-nerd-font
-    - google-cloud-sdk
-
   - name: install neovim pip package
     pip: name=neovim state=latest
 
   - name: install neovim pip3 package
     pip: name=neovim state=latest executable=/usr/local/bin/pip3
+  #   pip: name=neovim state=latest extra_args=--user
 
   - name: clone vim config
     git:
       repo: https://github.com/masters-of-cats/a-new-hope
       dest: ~/.config/nvim
       force: yes
-
-  - name: add custom vim plugins
-    lineinfile:
-      path: ~/.config/nvim/init.vim
-      insertafter: 'plugged'
-      line: 'silent source ~/.vimrc.local.plugins'
-
-  - name: add custom vim config
-    lineinfile:
-      path: ~/.config/nvim/init.vim
-      insertafter: EOF
-      line: 'silent source ~/.vimrc'
-
-  - name: remove stupid vim mappings
-    lineinfile:
-      path: ~/.config/nvim/init.vim
-      state: absent
-      regexp: ';;'
 
   - name: install vim plugins and binaries
     command: nvim --headless +PlugInstall +PlugUpdate +GoUpdateBinaries +qall
@@ -107,9 +31,19 @@
 
   - name: set bash-it prompt
     replace:
-      path: ~/.bash_profile
+      path: ~/.bashrc
       regexp: 'bobby'
       replace: 'minimal'
+
+  - name: get TPM
+    git:
+      repo: https://github.com/tmux-plugins/tpm
+      dest: ~/.tmux/plugins/tpm
+
+  - file: path=~/bin state=directory mode=0755
+
+  - name: install counterfeiter
+    command: go get -u github.com/maxbrunsfeld/counterfeiter
 
   - name: set up symlinks
     file:
@@ -118,15 +52,18 @@
       state: link
       force: yes
     with_items:
-    - {target: ~/.bash_it/custom/brew.bash, src: "{{ansible_env.PWD}}/config/bash/brew.bash"}
+    - {target: ~/.bash_it/custom/completion.bash, src: "{{ansible_env.PWD}}/config/bash/completion.bash"}
+    - {target: ~/.git-authors, src: "{{ansible_env.PWD}}/config/.git-authors"}
+    - {target: ~/.bash_it/custom/ngrok.bash, src: "{{ansible_env.PWD}}/config/bash/ngrok.bash"}
+    - {target: ~/.bash_it/custom/alias.bash, src: "{{ansible_env.PWD}}/config/bash/alias.bash"}
+    - {target: ~/.tmux.conf, src: "{{ansible_env.PWD}}/config/tmux.conf"}
     - {target: ~/.bash_it/custom/env.bash, src: "{{ansible_env.PWD}}/config/bash/env.bash"}
     - {target: ~/.bash_it/custom/git.bash, src: "{{ansible_env.PWD}}/config/bash/git.bash"}
     - {target: ~/.bash_it/custom/profile.bash, src: "{{ansible_env.PWD}}/config/bash/profile.bash"}
     - {target: ~/.bash_it/custom/terminal.bash, src: "{{ansible_env.PWD}}/config/bash/terminal.bash"}
-    - {target: ~/.gitconfig-shared, src: "{{ansible_env.PWD}}/config/.gitconfig-shared"}
+    - {target: ~/.gitconfig-dot, src: "{{ansible_env.PWD}}/config/.gitconfig-dot"}
+    - {target: ~/.git-commit, src: "{{ansible_env.PWD}}/config/.git-commit"}
     - {target: ~/.hushlogin, src: "{{ansible_env.PWD}}/config/.hushlogin"}
-    - {target: ~/.vimrc, src: "{{ansible_env.PWD}}/config/.vimrc"}
-    - {target: ~/.vimrc.local.plugins, src: "{{ansible_env.PWD}}/config/.vimrc.local.plugins"}
 
   - name: ~/.gitconfig
     blockinfile:
